@@ -30,7 +30,7 @@ CREATE TABLE parkingSpots (
 
 ```sql
 CREATE TABLE users (
-    userId BIGINT UNSIGNED PRIMARY KEY,
+    userId BIGINT UNSIGNED PRIMARY KEY, -- userid has to be randomly generated
     email VARCHAR(128) UNIQUE NOT NULL,
     name VARCHAR(128) NOT NULL,
     hashedPassword CHAR(128) NOT NULL
