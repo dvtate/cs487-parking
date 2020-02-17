@@ -25,7 +25,7 @@ const config = {
     production: {
         // listening port
         port: 5050,
-        // todo, use production database..
+        // hosting on tate's home server
         db: {
             host: "localhost",
             user: "root",
