@@ -12,13 +12,13 @@ const config = {
             host: "localhost",
             user: "root",
             password: "password",
-            database: "makerbounty",
+            database: "cs487",
         },
         ro_db: {
             host: "localhost",
             user: "root",
             password: "password",
-            database: "makerbounty",
+            database: "cs487",
         }
     },
     
