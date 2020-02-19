@@ -14,12 +14,6 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-//
-const querystring = require("querystring");
-
-// trust CDN
-app.set("trust-proxy", 1);
-
 // api endpoints
 app.use("/api", require("./endpoints"));
 

@@ -10,6 +10,7 @@ const auth = require("../../auth");
     "password" : "password_before_hash"
 }
 */
+
 module.exports = async (req, res) => {
     const { email, name, phone, password } = req.body;
 
@@ -32,7 +33,7 @@ module.exports = async (req, res) => {
         return res.status(500).send(dupEmail.error);
     if (dupEmail.length) {
         debug("duplicate email: %s", email);
-        return res.status(400).send(`email '${email}' already in use, log in instead`);
+        return res.status(400).send(`email already in use, log in instead`);
     }
 
     for (; ;) {
@@ -49,7 +50,6 @@ module.exports = async (req, res) => {
         }
         break;
     }
-
     
     return res.send("success");
 
