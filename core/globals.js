@@ -19,9 +19,9 @@ const config = {
             user: "root",
             password: "password",
             database: "cs487",
-        }
+        },
+        sensor_server: "localhost:4871",
     },
-    
     production: {
         // listening port
         port: 5050,
@@ -37,7 +37,8 @@ const config = {
             user: "root",
             password: "strattyx",
             database: "cs487",
-        }
+        },
+        sensor_server: "localhost:4871",
     }
 };
 

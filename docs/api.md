@@ -37,3 +37,30 @@ one of:
 
 ### Status codes
 - 200, 400, 401
+
+
+## **POST** `/user/plates/add`
+add a plate for the user
+### Expected body
+```json
+{
+    "identifier" : "G232-234"
+}
+```
+### Status Codes
+- 200, 400, 401
+
+## **GET** `/user/plates`
+get all of user's plates
+### Expected Response
+```json
+[
+    {
+        "identifier":"G232-234"
+    }, {
+        "identifier":"A32-342F"
+    }
+]
+```
+### Status Codes
+- 200, 401
