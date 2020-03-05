@@ -27,11 +27,26 @@ async function list(req, res) {
     if (user.error)
         return res.status(401).send(user.error);
     
-    const plates = await db.queryProm(`SELECT * FROM userLicensePlates WHERE userId=?`, [ user.userId ], true);
+    const plates = await db.queryProm(`SELECT * FROM userLicensePlates WHERE userId=?`, 
+        [ user.userId ], true);
 
     res.send(plates || []);
 }
 
+// DELETE /user/plate/:identifier
+async function remove(req, res) {
+    const user = await auth.authUserSafe(req.get("Authorization"));
+    if (user.error)
+        return res.status(401).send(user.error);
+    
+    const identifier = decodeURIComponent(req.params.identifier);
+    const rm = await db.queryProm(`DELETE FROM userLicensePlates WHERE userId=? AND identifier=?`,
+        [ user.userId, identifier ], false);
+    
+    res.send('ok');
+    debug(rm);
+}
+
 module.exports = {
-    add, list
+    add, list, remove
 };
