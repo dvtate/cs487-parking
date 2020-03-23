@@ -64,3 +64,43 @@ get all of user's plates
 ```
 ### Status Codes
 - 200, 401
+
+
+## **GET** `/lots/spots/:parkingLotId`
+Get a list of parkingspots for given lot including metadata
+
+### Expected Response
+- parkingSpotId: global UID for parking spot
+- label: can be found on map, lots have different numbering systems
+- occupied: in the past 5 mins is the spot occupied?
+```json
+[
+    {
+        "parkingSpotId" : 12234214123, 
+        "label" : "A25",
+        "occupied" : 0
+    }, {
+        "parkingSpotId" : 1223421412332, 
+        "label" : "A26",
+        "occupied" : 1
+    }
+]
+```
+
+### Status Codes
+- 200, 404
+
+
+## **GET** `/lots/:parkingLotId`
+Relevant information about given parking lot
+
+### Expected Response
+```json
+{
+    "name": "35th & state lot",
+    "address" : "231 35th St, Chicago, IL, USA 60616",
+    "areaCode" : "60616",
+    "contactEmail" : "support@35ststlot.com",
+    "contactPhone" : "18003452345"
+}
+```

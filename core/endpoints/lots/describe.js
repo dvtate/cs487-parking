@@ -13,7 +13,7 @@ module.exports.spots = async (req, res) => {
     if (spots instanceof Error)
         return res.status(500).send(spots);
     if (!spots.length)
-        return res.status(400).send("invalid parkingLotId");
+        return res.status(404).send("invalid parkingLotId");
 
     res.send(spots);
 
@@ -31,8 +31,10 @@ module.exports.lot = async (req, res) => {
     const [ data ] = await db.queryProm(`SELECT name, address, areaCode, contactEmail, contactPhone 
         FROM parkingLots WHERE parkingLotId=?`, [ req.params.parkingLotId ], true);
 
-    if (!data) 
-        return res.status(400).send("invalid parkingLotId");
+    if (spots instanceof Error)
+        return res.status(500).send(spots);
+    if (!data)
+        return res.status(404).send("invalid parkingLotId");
 
     res.send(data);
 
