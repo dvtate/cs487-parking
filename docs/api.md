@@ -104,3 +104,5 @@ Relevant information about given parking lot
     "contactPhone" : "18003452345"
 }
 ```
+### Status Codes
+- 200, 404
