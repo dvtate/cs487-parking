@@ -18,8 +18,13 @@ app.use(bodyParser.json());
 app.use("/api", require("./endpoints"));
 
 // app hosting
+<<<<<<< HEAD
 app.use("/app", express.static("./app"), { fallthrough: true });
 app.get("/app", (req, res) => res.redirect("/app/landing.html"));
+=======
+app.use("/app", express.static("./app", { fallthrough: true }));
+
+>>>>>>> 35b6e394a3bec4e6a15394f3917f096aa497f18c
 if (require.main == module) 
     app.listen(globals.port, () => 
         debug("Server listening on port %d", globals.port));

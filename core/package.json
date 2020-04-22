@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "DEBUG=core:* node index.js",
+    "forever": "DEBUG=core:* forever index.js"
   },
   "repository": {
     "type": "git",
