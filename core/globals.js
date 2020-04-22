@@ -24,7 +24,7 @@ const config = {
     },
     production: {
         // listening port
-        port: 5050,
+        port: 4870,
         // hosting on tate's home server
         db: {
             host: "localhost",
