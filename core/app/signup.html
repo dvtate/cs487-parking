@@ -108,28 +108,88 @@
 					document.cookie = `${cname}=${cvalue};${expires};path=/`;
 				})("authToken", token, 1 / 12);
       }
+
       
-      await function handleSubmit(){
+
+      let emailInUse = false;
+      let bad = {};
+      function checkInp(field) {
         const email = document.getElementById("email");
         const password = document.getElementById("password");
+        const name = document.getElementById("name");
+        const phone = document.getElementById("phone");
 
-        // request auth token from server
-        const resp = await cs487.api.post("/user/signin", {
-          email: email.value, 
-          password: hashPassword(email.value, password.value)
+        const mb = document.getElementById("fail-msg");
+        
+        if (field == "name") {
+          if (!name.value.includes(" "))
+            bad[field] = mb.innerHTML = "Please enter your full name (first and last)";
+          if (!name.value.length)
+            bad[field] = mb.innerHTML = "Please enter your full name (none provided)";
+          
+        } else if (field == "password") {
+          if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])[\S]{8,}$/.test(password.value))
+            bad[field] = mb.innerHTML = `Weak password requirements:<ul>
+              <li>At least 8 characters</li>
+              <li>At least one upper-case letter</li>
+              <li>At least one lower-case letter</li>
+              <li>At least one number</li>
+            </ul>`;
+          if (!email.value.length)
+            bad[field] = mb.innerHTML = "Please enter a password";
+
+        } else if (field == "email") {
+          
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value))
+            bad[field] = mb.innerHTML = "Invalid email address";
+          if (!emailInUse)
+            bad[field] = mb.innerHTML = "Email already in use";
+          if (!email.value.length)
+            bad[field] = mb.innerHTML = "Please enter your email address";
+
+        } else if (field == "phone") {
+          if (!/^\+?1?\W*([2-9][0-8][0-9])\W*([2-9][0-9]{2})\W*([0-9]{4})(\se?x?t?(\d*))?/.test(phone.value))
+            bad = mb.innerHTML = "Invalid US phone number";
+          if (!phone.value.length)
+            bad = mb.innerHTML = "Please enter your phone number";
+        }
+
+        const fields = { name, phone, email, password };
+        for (const f in fields)
+          fields[f].style.border = bad[f] ? "1px solid red" : "";
+        
+      }
+
+
+
+
+
+      async function handleSubmit(){
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const name = document.getElementById("name");
+        const phone = document.getElementById("phone");
+
+        // tell server to make new user
+        const resp = await cs487.api.post("/user/create", {
+          email: email.value, name: name.value, phone: phone.value,
+          password: hashPassword(email.value, password.value),
         });
 
         // 
         if (resp.status == 400) {
           const mb = document.getElementById("fail-msg");
           mb.innerHTML = resp.text;
-          password.style.border = email.style.border = "1px solid red";
 
         } else if (resp.status >= 500 && resp.status < 600) {
           alert(`${resp.status}: unexpected server error, please try again later`);
           console.log(resp);
 
-        } else {
+        } else { // success
+          
+          const resp = await cs487.api.post("/user/signin", {
+
+          });
           storeToken(resp.text);
           window.location = "home.html";
         }
