@@ -1,7 +1,7 @@
 
 //
 const cs487 = {
-    hostname: "http://dvtate.com:4870/api",
+    hostname: "http://c.dvtate.com:4870/api",
     getCookie: cname => {
         const name = cname + "=";
         const decodedCookie = decodeURIComponent(document.cookie);
