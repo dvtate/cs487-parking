@@ -9,6 +9,16 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+      <script type="text/javascript" src="js/main.js"></script>
+      <script>
+        // check authentication, if it's invalid, redirect to login page
+        (function checkAuth() {
+            let token;
+            if (!(token = cs487.getCookie('authToken')))
+                window.location = 'login.html';
+        })();
+      </script>
     </head>
   <body>
     <!-- HEADER AND NAVBAR -->

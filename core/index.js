@@ -19,7 +19,7 @@ app.use("/api", require("./endpoints"));
 
 // app hosting
 app.use("/app", express.static("./app"), { fallthrough: true });
-
+app.get("/app", (req, res) => res.redirect("/app/landing.html"));
 if (require.main == module) 
     app.listen(globals.port, () => 
         debug("Server listening on port %d", globals.port));

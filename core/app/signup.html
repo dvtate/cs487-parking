@@ -9,6 +9,8 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <script type="text/javascript" src="js/main.js"></script>
+      <script type="text/javascript" src="js/sha.js"></script>
     </head>
   <body>
     <!-- HEADER AND NAVBAR -->
@@ -28,7 +30,7 @@
     <main>
       <div class="container">
         <h1>Sign Up</h1>
-        <form class="col s12" method="POST">
+        <form class="col s12">
           <div class="row">
             <div class="input-field col s12">
               <input id="name" type="text" class="validate">
@@ -53,9 +55,10 @@
               <label for="password">Password</label>
             </div>
           </div>
-          <button class="btn waves-effect waves-light" type="submit">Submit
+          <button class="btn waves-effect waves-light" type="button" onclick="handleSubmit()">Submit
             <i class="material-icons right">send</i>
           </button>
+          <span id="fail-msg"></span>
         </form>
       </div>
     </main>
@@ -82,5 +85,55 @@
     <!-- END FOOTER -->
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.js"></script>
+
+    <script>
+      // because we're not using https this is important
+      // hash password to prevent someone from reading user's plaintext password over internet
+			// it's hashed again on backend too :)
+			function hashPassword(u, p) {
+				// DO NOT CHANGE THIS SALT
+				const salt = "saltyCS487sudentneedizza$417nZzM3JmcTRtM3F3ZjM=";
+				const shaObj = new jsSHA("SHA-512", "TEXT");
+				shaObj.update(salt);
+				shaObj.update(u);
+				shaObj.update(p);
+				return shaObj.getHash("B64");
+			}
+
+			function storeToken(token) {
+				(function setCookie(cname, cvalue, exdays) {
+					const d = new Date();
+					d.setTime(d.getTime() + (exdays*24*60*60*1000));
+					const expires = "expires=" + d.toUTCString();
+					document.cookie = `${cname}=${cvalue};${expires};path=/`;
+				})("authToken", token, 1 / 12);
+      }
+      
+      await function handleSubmit(){
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+
+        // request auth token from server
+        const resp = await cs487.api.post("/user/signin", {
+          email: email.value, 
+          password: hashPassword(email.value, password.value)
+        });
+
+        // 
+        if (resp.status == 400) {
+          const mb = document.getElementById("fail-msg");
+          mb.innerHTML = resp.text;
+          password.style.border = email.style.border = "1px solid red";
+
+        } else if (resp.status >= 500 && resp.status < 600) {
+          alert(`${resp.status}: unexpected server error, please try again later`);
+          console.log(resp);
+
+        } else {
+          storeToken(resp.text);
+          window.location = "home.html";
+        }
+      }
+    </script>
   </body>
 </html>

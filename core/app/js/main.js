@@ -67,11 +67,3 @@ const cs487 = {
         }
     }
 };
-
-
-// automatically check authentication, if it's invalid, redirect to login page
-(function checkAuth() {
-    let token;
-    if (!(token = cs487.getCookie('authToken')))
-        window.location = 'login.html';
-})();
