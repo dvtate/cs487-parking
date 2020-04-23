@@ -7,6 +7,7 @@ CREATE TABLE users (
     email VARCHAR(128) UNIQUE NOT NULL,
     name VARCHAR(128) NOT NULL,
     hashedPassword CHAR(128) NOT NULL,
+	phone VARCHAR(15) NOT NULL,
     createdTs BIGINT UNSIGNED NOT NULL -- when user signed up
 );
 ```
