@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use("/api", require("./endpoints"));
 
 // app hosting
-app.use("/app", express.static("./app"), { fallthrough: true });
+app.use("/app", express.static("./app", { fallthrough: true }));
 app.get("/app", (req, res) => res.redirect("/app/landing.html"));
 
 if (require.main == module) 
