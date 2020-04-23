@@ -33,32 +33,32 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s12">
-              <input id="name" type="text" class="validate">
+              <input id="name" type="text" class="validate" onchange="checkInp('name')">
               <label for="name">Full Name</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" class="validate">
+              <input id="email" type="email" class="validate" onchange="checkInp('email')">
               <label for="email">Email</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="phone" type="tel" class="validate">
+              <input id="phone" type="tel" class="validate" onchange="checkInp('phone')">
               <label for="phone">Phone #</label>
             </div>
           </div>          
           <div class="row">
             <div class="input-field col s12">
-              <input id="password" type="password" class="validate">
+              <input id="password" type="password" class="validate" onchange="checkInp('password')">
               <label for="password">Password</label>
             </div>
           </div>
           <button class="btn waves-effect waves-light" type="button" onclick="handleSubmit()">Submit
             <i class="material-icons right">send</i>
           </button>
-          <span id="fail-msg"></span>
+          <span id="fail-msg" style="color:red"></span>
         </form>
       </div>
     </main>
@@ -149,9 +149,9 @@
 
         } else if (field == "phone") {
           if (!/^\+?1?\W*([2-9][0-8][0-9])\W*([2-9][0-9]{2})\W*([0-9]{4})(\se?x?t?(\d*))?/.test(phone.value))
-            bad = mb.innerHTML = "Invalid US phone number";
+            bad[field] = mb.innerHTML = "Invalid US phone number";
           if (!phone.value.length)
-            bad = mb.innerHTML = "Please enter your phone number";
+            bad[field] = mb.innerHTML = "Please enter your phone number";
         }
 
         const fields = { name, phone, email, password };
@@ -159,10 +159,6 @@
           fields[f].style.border = bad[f] ? "1px solid red" : "";
         
       }
-
-
-
-
 
       async function handleSubmit(){
         const email = document.getElementById("email");
@@ -180,7 +176,17 @@
         if (resp.status == 400) {
           const mb = document.getElementById("fail-msg");
           mb.innerHTML = resp.text;
-
+          if (resp.text == "missing email" || resp.text == "Invalid email" ||
+            resp.text == "email already in use, log in instead")
+            checkInp("email");
+          if (resp.text == "missing name")
+            checkInp("name");
+          if (resp.text == "missing phone number")
+            checkInp("phone");
+          if (resp.text == "missing password")
+            checkInp("password");
+          
+          
         } else if (resp.status >= 500 && resp.status < 600) {
           alert(`${resp.status}: unexpected server error, please try again later`);
           console.log(resp);
