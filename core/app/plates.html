@@ -10,6 +10,13 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <script type="text/javascript" src="js/main.js"></script>
+      <script>
+        // check authentication, if it's invalid, redirect to login page
+        (function checkAuth() {
+            if (!cs487.getCookie('authToken'))
+                window.location = 'login.html';
+        })();
+      </script>
     </head>
   <body>
     <!-- HEADER AND NAVBAR -->
@@ -34,22 +41,16 @@
         <table class="striped">
           <thead>
             <tr>
-                <th>Vehicle</th>
-                <th>License Plate Identifier</th>
+                <th>Tag</th>
+                <th>Date Added</th>
+                <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="plates-table">
             <tr>
-              <td>Honda Civic</td>
-              <td>1AC39DS</td>
-            </tr>
-            <tr>
-              <td>BMW 6 Series</td>
-              <td>83JCI03</td>
-            </tr>
-            <tr>
-              <td>VW Beetle</td>
-              <td>AL9304I</td>
+              <td>loading</td>
+              <td>license</td>
+              <td>plates</td>
             </tr>
           </tbody>
         </table>
@@ -68,24 +69,6 @@
               </button>
             </div>
           </div>
-        </form>
-        <form class="col s12" method="POST">
-          <div class="row">
-            <div class="col s9">
-              <label>Remove a license plate</label>
-              <select class="browser-default">
-                <option value="" disabled selected>Pick an identifier to remove</option>
-                <option value="1">1AC39DS</option>
-                <option value="2">83JCI03</option>
-                <option value="3">AL9304I</option>
-              </select>
-            </div>
-            <div class="col s3">
-              <button class="btn waves-effect waves-light" type="submit">Remove plate
-                <i class="material-icons right">delete_forever</i>
-              </button>
-            </div>
-          </div>          
         </form>
       </div>
     </main>
@@ -112,5 +95,41 @@
     <!-- END FOOTER -->
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.js"></script>
+    <script>
+      async function removePlate(id) {
+        // request deletion
+        const resp = await fetch(`${cs487.hostname}/user/plate/${encodeUriComponent(id)}`, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${cs487.getCookie('authToken') }`,
+            },
+            body: JSON.stringify(body)
+        });
+        if (resp.status == 401)
+          window.location = "login.html";
+
+        // refresh page
+        window.location.reload();
+      }
+
+      (async function loadPlates(){
+        const req = cs487.get("/user/plates");
+        const t = document.getElementById("plates-table");
+        const resp = await req;
+        if (resp.status == 401) 
+          window.location = "login.html";
+        
+        t.innerHTML = JSON.parse(resp.text).map(p => `
+          <tr><td>${p.identifier}</td>
+            <td>${new Date(p.addedTs).toDateString()}</td>
+            <td><button onclick="removePlate('${p.identifier}')">Remove</button></td>
+          </tr>
+        `).join("");
+        
+      })();
+    </script>
   </body>
 </html>

@@ -27,6 +27,7 @@ async function list(req, res) {
     if (user.error)
         return res.status(401).send(user.error);
     
+    
     const plates = await db.queryProm(`SELECT * FROM userLicensePlates WHERE userId=?`, 
         [ user.userId ], true);
 
