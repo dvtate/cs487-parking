@@ -23,7 +23,7 @@ const cs487 = {
         // make a post request
         post : async (endpoint, body) => {
             try {
-                const resp = await fetch(cs425.hostname + endpoint, {
+                const resp = await fetch(cs487.hostname + endpoint, {
                     method: 'POST',
                     mode: 'cors',
                     headers: {
@@ -46,7 +46,7 @@ const cs487 = {
         // make a get request
         get : async endpoint => {
             try {
-                const resp = await fetch(cs425.hostname + endpoint, {
+                const resp = await fetch(cs487.hostname + endpoint, {
                     method: 'GET',
                     mode: 'cors',
                     headers: {

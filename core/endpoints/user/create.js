@@ -1,6 +1,8 @@
 const debug = require("debug")("core:user:create");
 const db = require("../../db");
 const auth = require("../../auth");
+const validator = require("validator");
+
 
 /* POST /user/create
 {
