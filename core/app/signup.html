@@ -188,8 +188,12 @@
         } else { // success
           
           const resp = await cs487.api.post("/user/signin", {
-
+            email: email.value, 
+            password: hashPassword(email.value, password.value),
           });
+          if (resp.status != 200)
+            window.location = "login.html";
+
           storeToken(resp.text);
           window.location = "home.html";
         }
