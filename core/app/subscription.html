@@ -36,13 +36,13 @@
     <!-- CONTENT -->
     <main>
       <div class="container">
-        <h1>Manage subscriptions</h1>
-        <h4>Purchase a parking spot subscription to reserve a home for your vehicle.</h4>
-        <button class="col s12 waves-effect waves-light btn-large">Purchase now!</button>
-        <br>
-        <br>
-        <h4>Just want a temporary reservation?</h4>
-        <a href="reservation.html" class="col s12 waves-effect waves-light btn-large">Reserve by the hour here</a>
+        <label>Which parking lot?</label>
+        <select class="browser-default" id="lotlist">
+          <option value="" disabled selected>Pick a parking lot</option>
+          <option value="1">Lot 1</option>
+          <option value="2">Lot 2</option>
+          <option value="3">Lot 3</option>
+        </select>
       </div>
     </main>
     <!-- END CONTENT -->
@@ -68,5 +68,33 @@
     <!-- END FOOTER -->
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.js"></script>
+
+    <script>
+      (async function loadLots(){
+        const lots = await cs487.api.get("/lots/");
+        if (lots.status == 401)
+          window.location = "login.html";
+        if (lots.status == 200) {
+          const genhtml = JSON.parse(lots.text).map(l =>
+            `<option value="${l.parkingLotId}">${l.name}</option>`).join();
+          document.getElementById("lotlist").innerHTML = genhtml;
+        }
+      })();
+
+      async function makeReservation() {
+        const lot = document.getElementById("lotlist").value;
+        const resp = await cs487.api.post("/reservation/repeating", {
+          parkingLotId: lot
+        });
+
+        if (resp.status == 200) {
+          const {spot, id} = JSON.parse(resp).text;
+          window.location = `spot.html?spot=${spot.label}&id=${id}`;
+        } else { 
+          alert(`failed to complete transaction:\nstatus ${resp.status}:\n${resp.text}`);
+        }
+      }
+    </script>
+
   </body>
 </html>

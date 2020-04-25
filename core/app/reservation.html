@@ -36,7 +36,7 @@
     <main>
       <div class="container">
         <h1>Make a Reservation</h1>
-        <form class="col s12" method="POST">
+        <form class="col s12">
           <!-- docs on materialize select: https://materializecss.com/select.html -->
           <label>Which parking lot?</label>
           <select class="browser-default" id="lotlist">
@@ -59,7 +59,7 @@
           </p> -->
           <label>When will you arrive?</label>
           <input type="datetime-local" id="when">
-            <button class="btn waves-effect waves-light" type="submit">Reserve spot
+            <button class="btn waves-effect waves-light" type="button" onclick="makeReservation()">Reserve spot
             <i class="material-icons right">send</i>
           </button>
         </form>
@@ -103,7 +103,17 @@
 
       async function makeReservation() {
         const ts = Date.parse(document.getElementById("when").value);
-        const lot = document.getElementById("")
+        const lot = document.getElementById("lotlist").value;
+        const resp = await cs487.api.post("/reservation/onetime", {
+          parkingLotId: lot, ts
+        });
+
+        if (resp.status == 200) {
+          const {spot, id} = JSON.parse(resp).text;
+          window.location = `spot.html?spot=${spot.label}&id=${id}&src=reserve`;
+        } else { 
+          alert(`failed to complete transaction:\nstatus ${resp.status}:\n${resp.text}`);
+        }
       }
     </script>
 
