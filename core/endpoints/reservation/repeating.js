@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         return res.status(463).send("lot full");
 
     for (; ;) {
-        const id = Math.random() * Number.MAX_SAFE_INTEGER;
+        const id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 
         const q = await db.queryProm(`INSERT INTO subscriptions 
         (subscriptionId, parkingSpotId, userId) VALUES (?,?,?);`, [
