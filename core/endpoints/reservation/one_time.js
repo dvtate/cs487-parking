@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
         WHERE occupied=0 AND parkingLotId=?
             AND parkingSpotId NOT IN (
                 SELECT parkingSpotId FROM oneTimeReservations
-            AND parkingSpotId NOT IN (
+            ) AND parkingSpotId NOT IN (
                 SELECT parkingSpotId FROM repeatReservations
             )
         LIMIT 1;

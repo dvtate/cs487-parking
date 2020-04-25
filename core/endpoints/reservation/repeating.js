@@ -1,4 +1,6 @@
 const db = require("../../db");
+const auth = require("../../auth");
+const debug = require("debug")("core:endpoints:edit");
 
 // POST /reservation/repeating
 module.exports = async (req, res) => {
@@ -16,8 +18,8 @@ module.exports = async (req, res) => {
         WHERE occupied=0 AND parkingLotId=?
             AND parkingSpotId NOT IN (
                 SELECT parkingSpotId FROM oneTimeReservations
-            AND parkingSpotId NOT IN (
-                SELECT parkingSpotId FROM repeatReservations
+            ) AND parkingSpotId NOT IN (
+                SELECT parkingSpotId FROM subscriptions
             )
         LIMIT 1;
     `, [ parkingLotId ], true);
