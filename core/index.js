@@ -6,6 +6,7 @@ const globals = require("./globals");
 const db = require("./db");
 db.begin()
 
+
 // 
 const express = require("express");
 const app = express();

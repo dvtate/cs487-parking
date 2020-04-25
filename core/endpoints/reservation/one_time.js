@@ -1,4 +1,6 @@
 const db = require("../../db");
+const auth = require("../../auth");
+const debug = require("debug")("core:endpoints:edit");
 
 // POST /reservation/onetime
 module.exports = async (req, res) => {

@@ -13,12 +13,13 @@ module.exports = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const [ user ] = await db.queryProm("SELECT userId, hashedPassword FROM users WHERE email=?", [ email ], true);
-        
+        const [ user ] = await db.queryProm(
+            "SELECT userId, hashedPassword FROM users WHERE email=?",
+            [ email ], true);
+
         if (!user)
             return res.status(401).send("wrong email");
 
-        
         if (auth.getPasswordHash(user.userId, password) == user.hashedPassword) {
             const tok = await auth.generateToken(user.userId, 0);
             res.send(tok);
