@@ -42,8 +42,10 @@ module.exports = async (req, res) => {
         const userId = Math.random() * Number.MAX_SAFE_INTEGER;
         const pwHash = auth.getPasswordHash(userId, password);
 
-        const r = await db.queryProm(`INSERT INTO users (userId, email, name, phone, hashedPassword, createdTs)
-            VALUES (?, ?, ?, ?, ?, ?)`, [ userId, email, name, phone, pwHash, Date.now() ]);
+        const result = await db.queryProm(`INSERT INTO users 
+            (userId, email, name, phone, hashedPassword, createdTs)
+            VALUES (?, ?, ?, ?, ?, ?)`, [
+                userId, email, name, phone, pwHash, Date.now() ], false);
 
         if (result instanceof Error) {
             if (result.message.match(/Duplicate entry '.+' for key 'PRIMARY'/))

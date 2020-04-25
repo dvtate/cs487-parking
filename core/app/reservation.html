@@ -12,10 +12,10 @@
       <script type="text/javascript" src="js/main.js"></script>
       <script>
         // check authentication, if it's invalid, redirect to login page
-        (function checkAuth() {
-            if (!cs487.getCookie('authToken'))
-                window.location = 'login.html';
-        })();
+        // (function checkAuth() {
+        //     if (!cs487.getCookie('authToken'))
+        //         window.location = 'login.html';
+        // })();
       </script>
     </head>
   <body>
@@ -39,30 +39,26 @@
         <form class="col s12" method="POST">
           <!-- docs on materialize select: https://materializecss.com/select.html -->
           <label>Which parking lot?</label>
-          <select class="browser-default">
+          <select class="browser-default" id="lotlist">
             <option value="" disabled selected>Pick a parking lot</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
+            <option value="1">Lot 1</option>
+            <option value="2">Lot 2</option>
+            <option value="3">Lot 3</option>
           </select>
-          <label>Which parking spot?</label>
-          <select class="browser-default">
-            <option value="" disabled selected>Pick a parking spot</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Which vehicle are you in?</label>
+
+          <!-- <label>Which vehicle are you in?</label>
           <select class="browser-default">
             <option value="" disabled selected>Pick a license plate</option>
             <option value="1">Option 1</option>
             <option value="2">Option 2</option>
             <option value="3">Option 3</option>                    
-          </select>
-          <label>How long will you be parked (hours)?</label>
+          </select> -->
+          <!-- <label>How long will you be parked (hours)?</label>
           <p class="range-field">
             <input type="range" id="duration" min="0" max="24" />
-          </p>
+          </p> -->
+          <label>When will you arrive?</label>
+          <input type="datetime-local" id="when">
             <button class="btn waves-effect waves-light" type="submit">Reserve spot
             <i class="material-icons right">send</i>
           </button>
@@ -92,5 +88,24 @@
     <!-- END FOOTER -->
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.js"></script>
+
+    <script>
+      (async function loadLots(){
+        const lots = await cs487.api.get("/lots/");
+        if (lots.status == 401)
+          window.location = "login.html";
+        if (lots.status == 200) {
+          const genhtml = JSON.parse(lots.text).map(l =>
+            `<option value="${l.parkingLotId}">${l.name}</option>`).join();
+          document.getElementById("lotlist").innerHTML = genhtml;
+        }
+      })();
+
+      async function makeReservation() {
+        const ts = Date.parse(document.getElementById("when").value);
+        const lot = document.getElementById("")
+      }
+    </script>
+
   </body>
 </html>

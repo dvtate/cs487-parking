@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <script type="text/javascript" src="js/main.js"></script>
+      <script>
+        // automatically check authentication, if it's invalid, redirect to login page
+        (function checkAuth() {
+            if (!cs487.getCookie('authToken'))
+                window.location = 'landing.html';
+        })();
+      </script>
+    </head>
+  <body>
+    <!-- HEADER AND NAVBAR -->
+    <header>
+      <nav>
+        <div class="nav-wrapper teal lighten-2">
+          <a href="landing.html" class="brand-logo teal lighten-2 center">Smart Parking</a>
+          <ul id="nav-mobile" class="right">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="signup.html">Signup</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- END HEADER AND NAVBAR -->
+    <!-- CONTENT -->
+    <main>
+      <div class="container">
+        <h1>Your designated parking spot: <span id="spot-label">E2</span></h1>
+        <h4><span id="rclass">Reservation</span> ID: <span id="rid">32412341234</span></h4>
+        <p>Please make note of this parking spot when you arrive at the facility. You should also have received an email and SMS notification with this information.</p>
+        <button type="button" onclick="redir()">Ok</button>
+      </div>
+    </main>
+    <!-- END CONTENT -->
+    <!-- FOOTER -->
+    <footer class="page-footer teal lighten-2">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Smart Parking </h5>
+            <p class="grey-text text-lighten-4">Project to demonstrate principles of software engineering taught in CS487 by Ola Tannous.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Students</h5>
+            <ul>
+              <li>Dustin Van Tate Testa</li>
+              <li>Shuke Pang</li>
+              <li>Samuel Golden</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- END FOOTER -->
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script>
+      function getParameterByName(name, url) {
+        if (!url)
+          url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+
+      function redir() {
+        window.location = "home.html";
+      }
+
+      (function getFields(){
+        const spot = getParameterByName("spot");
+        const id = getParameterByName("id");
+        document.getElementById("spot-label").innerHTML = spot;
+        document.getElementById("rid").innerHTML = id;
+        document.getElementById("rclass").innerHTML = 
+          getParameterByName("src") == "reserve" ?
+            "Reservation" : "Subscription";
+      })();
+    </script>
+  </body>
+</html>

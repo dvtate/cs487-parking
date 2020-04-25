@@ -59,6 +59,7 @@ CREATE TABLE parkingSpots (
 ## One-time Reservations
 ```sql
 CREATE TABLE onetimeReservations (
+	onetimeReservationId BIGINT NOT NULL PRIMARY KEY,
 	parkingSpotId BIGINT REFERENCES parkingSpots,
 	userId BIGINT REFERENCES users,
 	startTs BIGINT
@@ -67,11 +68,9 @@ CREATE TABLE onetimeReservations (
 
 ## Recurring Reservations
 ```sql
-CREATE TABLE repeatReservations (
+CREATE TABLE subscriptions (
+	subscriptionId BIGINT NOT NULL PRIMARY KEY,
 	parkingSpotId BIGINT REFERENCES parkingSpots,
-	userId BIGINT REFERENCES users,
-	startHour TINYINT(2),
-	endHour TINYINT(2),
-	days SET("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
+	userId BIGINT REFERENCES users
 );
 ```
