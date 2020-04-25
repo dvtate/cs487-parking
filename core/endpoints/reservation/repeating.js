@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     const [ spot ] = await db.queryProm(` SELECT * FROM parkingSpots 
         WHERE occupied=0 AND parkingLotId=?
             AND parkingSpotId NOT IN (
-                SELECT parkingSpotId FROM oneTimeReservations
+                SELECT parkingSpotId FROM onetimeReservations
             ) AND parkingSpotId NOT IN (
                 SELECT parkingSpotId FROM subscriptions
             )

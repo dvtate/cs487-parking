@@ -116,7 +116,7 @@
         });
 
         if (resp.status == 200) {
-          const {spot, id} = JSON.parse(resp).text;
+          const {spot, id} = JSON.parse(resp.text);
           window.location = `spot.html?spot=${spot.label}&id=${id}&src=reserve`;
         } else { 
           alert(`failed to complete transaction:\nstatus ${resp.status}:\n${resp.text}`);

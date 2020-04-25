@@ -21,9 +21,9 @@ module.exports = async (req, res) => {
     const [ spot ] = await db.queryProm(` SELECT * FROM parkingSpots 
         WHERE occupied=0 AND parkingLotId=?
             AND parkingSpotId NOT IN (
-                SELECT parkingSpotId FROM oneTimeReservations
+                SELECT parkingSpotId FROM onetimeReservations
             ) AND parkingSpotId NOT IN (
-                SELECT parkingSpotId FROM repeatReservations
+                SELECT parkingSpotId FROM subscriptions
             )
         LIMIT 1;
     `, [ parkingLotId ], true);
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
         const id = Math.random() * Number.MAX_SAFE_INTEGER;
 
         const q = await db.queryProm(`INSERT INTO onetimeReservations 
-        (onetimeReservationId, parkingSpotId, userId, startTs) VALUES (?,?,?);`, [
+        (onetimeReservationId, parkingSpotId, userId, startTs) VALUES (?,?,?,?);`, [
             id, spot.parkingSpotId, userId, ts
         ], false);
 
