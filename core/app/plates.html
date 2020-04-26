@@ -64,7 +64,7 @@
               <label for="plate_num">Register new license plate</label>
             </div>
             <div class="col s3">
-              <button class="btn waves-effect waves-light" type="submit">Register
+              <button class="btn waves-effect waves-light" type="button" onclick="addPlate()">Register
                 <i class="material-icons right">add</i>
               </button>
             </div>
@@ -113,6 +113,14 @@
 
         // refresh page
         window.location.reload();
+      }
+
+      async function addPlate(){
+        const id = document.getElementById("plate_num").value;
+        const resp = await cs487.api.post("/user/plates/add", { "identifier":id});
+	if (resp.status == 200) window.location.reload();
+        if (resp.status == 401) window.location = "login.html";
+        alert(resp.text);
       }
 
       (async function loadPlates(){
