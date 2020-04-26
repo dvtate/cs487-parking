@@ -98,7 +98,7 @@
     <script>
       async function removePlate(id) {
         // request deletion
-        const resp = await fetch(`${cs487.hostname}/user/plate/${encodeUriComponent(id)}`, {
+        const resp = await fetch(`${cs487.hostname}/user/plate/${encodeURIComponent(id)}`, {
             method: 'DELETE',
             mode: 'cors',
             headers: {
@@ -106,7 +106,7 @@
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${cs487.getCookie('authToken') }`,
             },
-            body: JSON.stringify(body)
+            //body: JSON.stringify(body)
         });
         if (resp.status == 401)
           window.location = "login.html";
@@ -118,13 +118,13 @@
       async function addPlate(){
         const id = document.getElementById("plate_num").value;
         const resp = await cs487.api.post("/user/plates/add", { "identifier":id});
-	if (resp.status == 200) window.location.reload();
-        if (resp.status == 401) window.location = "login.html";
+	if (resp.status == 200) return window.location.reload();
+        if (resp.status == 401) return window.location = "login.html";
         alert(resp.text);
       }
 
       (async function loadPlates(){
-        const req = cs487.get("/user/plates");
+        const req = cs487.api.get("/user/plates");
         const t = document.getElementById("plates-table");
         const resp = await req;
         if (resp.status == 401) 

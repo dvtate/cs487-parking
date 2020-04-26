@@ -17,7 +17,7 @@ async function add(req, res) {
     const r = await db.queryProm(`INSERT INTO userLicensePlates (userId, identifier, addedTs)
         VALUES (?,?,?)`, [ user.userId, req.body.identifier, Date.now(), ], false);
     
-    res.status("done");
+    res.send("done");
 }
 
 
