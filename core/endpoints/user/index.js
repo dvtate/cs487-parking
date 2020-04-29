@@ -7,7 +7,8 @@ router.post("/signin", require("./signin"));
 // licence plate management
 router.get("/plates", require("./plates").list);
 router.post("/plates/add", require("./plates").add);
-router.delete("/plate/:identifier", require("./plates").remove);
+router.delete("plate/:identifier", require("./plates").remove);
+
+router.get("/", require("./describe"));
 
 module.exports = router;
-
