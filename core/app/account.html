@@ -11,11 +11,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <script type="text/javascript" src="js/main.js"></script>
       <script>
-        // automatically check authentication, if it's invalid, redirect to login page
-        //(function checkAuth() {
-//            if (!cs487.getCookie('authToken'))
-                //window.location = 'landing.html';
-        //})();
+         //automatically check authentication, if it's invalid, redirect to login page
+        (function checkAuth() {
+            if (!cs487.getCookie('authToken'))
+                window.location = 'landing.html';
+        })();
       </script>
     </head>
   <body>
