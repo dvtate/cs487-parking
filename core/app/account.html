@@ -91,7 +91,7 @@
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.js"></script>
     <script>
-      (function loadData() {
+      (async function loadData() {
         const ud = await cs487.api.get("/user/");
         document.getElementById("user_id").value = ud.userId;
         document.getElementById("name").value = ud.name;
