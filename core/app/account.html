@@ -55,14 +55,14 @@
               <td>Phone Number</td>
               <td id='phone'>[phone]</td>
             </tr>                
-            <tr>
+            <!-- <tr>
               <td>Active Subscription</td>
               <td id='subscription'>[subscription (could just be boolean or more info)]</td>
             </tr>
             <tr>
               <td>Temporary Reservation</td>
               <td id='reservation'>[same caveat as subscription]</td>
-            </tr>         
+            </tr>          -->
           </tbody>
         </table>
       </div>
@@ -90,5 +90,15 @@
     <!-- END FOOTER -->
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.js"></script>
+    <script>
+      (function loadData() {
+        const ud = await cs487.api.get("/user/");
+        document.getElementById("user_id").value = ud.userId;
+        document.getElementById("name").value = ud.name;
+        document.getElementById("email").value = ud.email;
+        document.getElementById("phone").value = ud.phone;
+      })()
+    </script>
+
   </body>
 </html>
