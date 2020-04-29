@@ -92,11 +92,12 @@
     <script type="text/javascript" src="js/materialize.js"></script>
     <script>
       (async function loadData() {
-        const ud = await cs487.api.get("/user/");
-        document.getElementById("user_id").value = ud.userId;
-        document.getElementById("name").value = ud.name;
-        document.getElementById("email").value = ud.email;
-        document.getElementById("phone").value = ud.phone;
+        const ud = JSON.parse((await cs487.api.get("/user/")).text);
+        document.getElementById("user_id").innerHTML = ud.userId;
+        document.getElementById("name").innerHTML = ud.name;
+        document.getElementById("email").innerHTML = ud.email;
+        document.getElementById("phone").innerHTML = ud.phone;
+	console.log(ud);
       })()
     </script>
 
