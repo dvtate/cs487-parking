@@ -16,7 +16,7 @@ async function add(req, res) {
 
     const r = await db.queryProm(`INSERT INTO userLicensePlates (userId, identifier, addedTs)
         VALUES (?,?,?)`, [ user.userId, req.body.identifier, Date.now(), ], false);
-    
+    debug("added plate: ", req.body.identifier);
     res.send("done");
 }
 
@@ -30,6 +30,7 @@ async function list(req, res) {
     const plates = await db.queryProm(`SELECT * FROM userLicensePlates WHERE userId=?`, 
         [ user.userId ], true);
 
+    debug(plates);
     res.send(plates || []);
 }
 
