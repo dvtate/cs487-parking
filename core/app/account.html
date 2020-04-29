@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <script type="text/javascript" src="js/main.js"></script>
+      <script>
+         //automatically check authentication, if it's invalid, redirect to login page
+        (function checkAuth() {
+            if (!cs487.getCookie('authToken'))
+                window.location = 'landing.html';
+        })();
+      </script>
+    </head>
+  <body>
+    <!-- HEADER AND NAVBAR -->
+    <header>
+      <nav>
+        <div class="nav-wrapper teal lighten-2">
+          <a href="landing.html" class="brand-logo teal lighten-2 center">Smart Parking</a>
+          <ul id="nav-mobile" class="right">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="signup.html">Signup</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- END HEADER AND NAVBAR -->
+    <!-- CONTENT -->
+    <main>
+      <div class="container">
+        <h2>Account Info</h2>
+        <h5>Here's what we know about you.</h5>
+        <table class='responsive table'>
+          <tbody>
+            <tr>
+              <td>Account ID</td>
+              <td id='user_id'>[id]</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td id='name'>[name]</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td id='email'>[email]</td>
+            </tr>
+            <tr>
+              <td>Phone Number</td>
+              <td id='phone'>[phone]</td>
+            </tr>                
+            <tr>
+              <td>Active Subscription</td>
+              <td id='subscription'>[subscription (could just be boolean or more info)]</td>
+            </tr>
+            <tr>
+              <td>Temporary Reservation</td>
+              <td id='reservation'>[same caveat as subscription]</td>
+            </tr>         
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <!-- END CONTENT -->
+    <!-- FOOTER -->
+    <footer class="page-footer teal lighten-2">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Smart Parking </h5>
+            <p class="grey-text text-lighten-4">Project to demonstrate principles of software development taught in CS487 by Ola Tannous.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Students</h5>
+            <ul>
+              <li>Dustin Van Tate Testa</li>
+              <li>Shuke Pang</li>
+              <li>Samuel Golden</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- END FOOTER -->
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.js"></script>
+  </body>
+</html>
