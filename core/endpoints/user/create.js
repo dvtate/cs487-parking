@@ -8,7 +8,7 @@ const validator = require("validator");
 {
     "email" : "dansk99@outlook.com"
     "name" : "Bob Marley",
-    "phone" : "023423214",
+    "phone" : "123423214",
     "password" : "password_before_hash"
 }
 */
